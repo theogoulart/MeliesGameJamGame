@@ -33,8 +33,10 @@ public class PlayerColors : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1)) {
             if (Input.GetKeyDown(KeyCode.Mouse0)) {
                 Debug.Log("change color 0");
+                GameController.instance.lightColorFunction("blue");
             } else {
                 Debug.Log("change color 1");
+                GameController.instance.lightColorFunction("green");
             }
 
             sprite.color = new Color(1,0,0,1);

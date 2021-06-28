@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    public string enemyColor;
     private Rigidbody2D rig;
-
+    
     [SerializeField] private Transform player;
     [SerializeField] private float speed;
+    
     // Start is called before the first frame update
     void Start()
     {
