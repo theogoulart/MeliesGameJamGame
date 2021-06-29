@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cliff : MonoBehaviour
+public class Portal : MonoBehaviour
 {
     [SerializeField] private Transform respawnPoint;
     // Start is called before the first frame update

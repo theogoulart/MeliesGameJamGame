@@ -24,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         OnInput();
+    }
+
+    private void FixedUpdate() {
         Move();
     }
 
