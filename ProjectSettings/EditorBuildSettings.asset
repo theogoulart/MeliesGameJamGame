@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: bc4b9e82eabec8d4ab446b2066e0220f
   - enabled: 1
-    path: Assets/Scenes/MVPTheoV2.unity
-    guid: cfa2d6195efe58b449bf5e5ee2314699
+    path: Assets/Scenes/3DSceneMVP.unity
+    guid: 775dcbce514ace94997887606eae215e
   m_configObjects: {}

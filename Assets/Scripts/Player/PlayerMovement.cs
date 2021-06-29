@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D rig;
-    private Vector2 _direction;
+    private Rigidbody rig;
+    private Vector3 _direction;
+    private bool isMovementLocked;
 
     [SerializeField] private float speed;
 
-    public Vector2 direction
+    public Vector3 direction
     { 
         get { return _direction; }
         set { _direction = value; }
@@ -17,12 +18,17 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rig = GetComponent<Rigidbody2D>();
+        rig = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isMovementLocked) {
+            return;
+        }
+
+        _direction = Vector3.zero;
         OnInput();
     }
 
@@ -38,6 +44,39 @@ public class PlayerMovement : MonoBehaviour
 
     void OnInput()
     {
-        _direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Debug.Log(Input.GetButtonDown("Vertical"));
+        if (Input.GetKeyDown(KeyCode.W)) {
+            Debug.Log("up");
+            isMovementLocked = true;
+            _direction = Vector3.forward;
+            StartCoroutine(UnlockMovements());
+        }
+
+        if (Input.GetKeyDown(KeyCode.S)) {
+            Debug.Log("down");
+            isMovementLocked = true;
+            _direction = Vector3.back;
+            StartCoroutine(UnlockMovements());
+        }
+
+        if (Input.GetKeyDown(KeyCode.A)) {
+            Debug.Log("left");
+            isMovementLocked = true;
+            _direction = Vector3.left;
+            StartCoroutine(UnlockMovements());
+        }
+
+        if (Input.GetKeyDown(KeyCode.D)) {
+            Debug.Log("right");
+            isMovementLocked = true;
+            _direction = Vector3.right;
+            StartCoroutine(UnlockMovements());
+        }
+    }
+
+    IEnumerator UnlockMovements()
+    {
+        yield return new WaitForSeconds(.5f);
+        isMovementLocked = false;
     }
 }
