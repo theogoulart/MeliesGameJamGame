@@ -9,6 +9,7 @@ public class EnemyMovement : MonoBehaviour
     private bool isMovementLocked;
     private Vector3 _nextStep;
     private Vector3 _direction;
+    public LayerMask stepOnLayer;
 
     [SerializeField] private Transform player;
     private PlayerMovement _playerMov;
@@ -61,9 +62,9 @@ public class EnemyMovement : MonoBehaviour
     bool ValidateAndMove()
     {
             RaycastHit hit;
-            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f);
+            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, stepOnLayer);
 
-            if (hit.collider != null && hit.collider.CompareTag("Floor")) {
+            if (hit.collider != null) {
                 _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
                 StartCoroutine(Move());
                 return true;

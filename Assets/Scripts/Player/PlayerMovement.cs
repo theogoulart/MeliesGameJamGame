@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _nextStep;
     private Vector3 _currentPosition;
     private bool isMovementLocked;
+    public LayerMask stepOnLayer;
+    public LayerMask finishLayer;
 
     public Vector3 direction
     { 
@@ -68,15 +70,17 @@ public class PlayerMovement : MonoBehaviour
 
         if (hasMovementKeyBeenPressed) {
             RaycastHit hit;
-            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f);
+            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, stepOnLayer);
 
-            if (hit.collider != null && hit.collider.CompareTag("Floor")) {
+            if (hit.collider != null) {
                 _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
                 StartCoroutine(CallEnemiesTurn());
                 StartCoroutine(Move());
+                return;
             }
 
-            if (hit.collider != null && hit.collider.CompareTag("Finish")) {
+            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, finishLayer);
+            if (hit.collider != null) {
                 _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
                 StartCoroutine(Move());
                 GameController.instance.FinishLevel();

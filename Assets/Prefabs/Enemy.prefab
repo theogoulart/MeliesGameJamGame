@@ -124,4 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyColor: Red
+  stepOnLayer:
+    serializedVersion: 2
+    m_Bits: 256
   player: {fileID: 0}
