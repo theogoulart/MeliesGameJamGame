@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         instance = this;
-        enemy = GameObject.FindGameObjectsWithTag("Enemy");
+        //enemy = GameObject.FindGameObjectsWithTag("Enemy");
 
     }
 
@@ -28,25 +28,22 @@ public class GameController : MonoBehaviour
     public void lightColorFunction(string color){
         lightColor = color;
         // Debug.Log(color);
-
-        for(int i = 0; i < enemy.Length; i++) {
+        var i = -1;
+        foreach (GameObject obj in enemy)
+        {
+            i++;
             enemyColorScript = enemy[i].GetComponent<EnemyMovement>().enemyColor;
-            Debug.Log(enemyColorScript);
-            // if(enemy[i].GetComponent<EnemyMovement>().enemyColor == color){
-            //     ShowOrhideEnemy(false);
-            // }
 
-            // if(enemy[i].GetComponent<EnemyMovement>().enemyColor != color){
-            //     ShowOrhideEnemy(true);
-            // }
+            if(enemyColorScript == color){
+                ShowOrhideEnemy(false, i);
+            }else{
+                ShowOrhideEnemy(true, i);
+            }
         }
-
-    
-
     }
 
-    public void ShowOrhideEnemy(bool status){
-        enemy[0].SetActive(status);
+    public void ShowOrhideEnemy(bool status, int id){
+        enemy[id].SetActive(status);
     }
 
 }

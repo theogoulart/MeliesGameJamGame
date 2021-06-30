@@ -30,13 +30,18 @@ public class PlayerColors : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1)) {
-            if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                Debug.Log("change color 0");
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3)) {
+            if (Input.GetKeyDown(KeyCode.Alpha1)) {
+                // Debug.Log("change color 0");
                 GameController.instance.lightColorFunction("blue");
-            } else {
-                Debug.Log("change color 1");
+            } else if(Input.GetKeyDown(KeyCode.Alpha2)){
+                // Debug.Log("change color 1");
                 GameController.instance.lightColorFunction("green");
+            }else if(Input.GetKeyDown(KeyCode.Alpha3)){
+                // Debug.Log("change color 1");
+                GameController.instance.lightColorFunction("natual");
+            }else{
+                Debug.Log("no light");
             }
 
             sprite.color = new Color(1,0,0,1);
