@@ -7,7 +7,11 @@ public class GameController : MonoBehaviour
     public GameObject[] enemy;
     public GameObject player;
     public string lightColor;
+    public bool enemiesTurn;
     public static GameController instance;
+    public float gameSpeed = 12;
+    public float gridSize = 3;
+    public float movementTimeout;
 
     private string enemyColorScript;
     
@@ -16,13 +20,20 @@ public class GameController : MonoBehaviour
     {
         instance = this;
         enemy = GameObject.FindGameObjectsWithTag("Enemy");
-
+        movementTimeout = gridSize / gameSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void StartEnemiesTurn()
+    {
+        Debug.Log("enemies turn");
+        enemiesTurn = true;
+        StartCoroutine(FinishEnemiesTurn());
     }
 
     public void lightColorFunction(string color){
@@ -49,4 +60,14 @@ public class GameController : MonoBehaviour
         enemy[0].SetActive(status);
     }
 
+    IEnumerator FinishEnemiesTurn()
+    {
+        yield return new WaitForSeconds(movementTimeout);
+        enemiesTurn = false;
+    }
+
+    public void FinishLevel()
+    {
+        Debug.Log("congratulations!");
+    }
 }

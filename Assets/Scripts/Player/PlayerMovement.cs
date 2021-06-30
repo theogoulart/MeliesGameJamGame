@@ -6,77 +6,115 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody rig;
     private Vector3 _direction;
+    private Vector3 _nextStep;
+    private Vector3 _currentPosition;
     private bool isMovementLocked;
-
-    [SerializeField] private float speed;
 
     public Vector3 direction
     { 
         get { return _direction; }
         set { _direction = value; }
     }
+
+    public Vector3 nextStep
+    { 
+        get { return _nextStep; }
+        set { _nextStep = value; }
+    }
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody>();
+        _currentPosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isMovementLocked) {
-            return;
-        }
-
-        _direction = Vector3.zero;
         OnInput();
     }
 
     private void FixedUpdate() {
-        Move();
-    }
-
-    // Update is called once per frame
-    void Move()
-    {
-        rig.MovePosition(rig.position + _direction * speed * Time.deltaTime);
+        // Move();
     }
 
     void OnInput()
     {
-        Debug.Log(Input.GetButtonDown("Vertical"));
+        if (isMovementLocked) {
+            return;
+        }
+
+        bool hasMovementKeyBeenPressed = false;
+
         if (Input.GetKeyDown(KeyCode.W)) {
-            Debug.Log("up");
-            isMovementLocked = true;
             _direction = Vector3.forward;
-            StartCoroutine(UnlockMovements());
+            hasMovementKeyBeenPressed = true;
         }
 
         if (Input.GetKeyDown(KeyCode.S)) {
-            Debug.Log("down");
-            isMovementLocked = true;
             _direction = Vector3.back;
-            StartCoroutine(UnlockMovements());
+            hasMovementKeyBeenPressed = true;
         }
 
         if (Input.GetKeyDown(KeyCode.A)) {
-            Debug.Log("left");
-            isMovementLocked = true;
             _direction = Vector3.left;
-            StartCoroutine(UnlockMovements());
+            hasMovementKeyBeenPressed = true;
         }
 
         if (Input.GetKeyDown(KeyCode.D)) {
-            Debug.Log("right");
-            isMovementLocked = true;
             _direction = Vector3.right;
-            StartCoroutine(UnlockMovements());
+            hasMovementKeyBeenPressed = true;
+        }
+
+        if (hasMovementKeyBeenPressed) {
+            RaycastHit hit;
+            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f);
+
+            if (hit.collider != null && hit.collider.CompareTag("Floor")) {
+                _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
+                StartCoroutine(CallEnemiesTurn());
+                StartCoroutine(Move());
+            }
+
+            if (hit.collider != null && hit.collider.CompareTag("Finish")) {
+                _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
+                StartCoroutine(Move());
+                GameController.instance.FinishLevel();
+            }
         }
     }
 
-    IEnumerator UnlockMovements()
+    IEnumerator Move()
     {
-        yield return new WaitForSeconds(.5f);
+        if (isMovementLocked) {
+            yield break;
+        }
+
+        isMovementLocked = true;
+        while (MoveToNextNode(_nextStep)) {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(GameController.instance.movementTimeout);
         isMovementLocked = false;
+    }
+
+    bool MoveToNextNode(Vector3 goal)
+    {
+        return goal != (rig.position = Vector3.MoveTowards(rig.position, goal, GameController.instance.gameSpeed * Time.deltaTime));
+    }
+
+    IEnumerator CallEnemiesTurn()
+    {
+        yield return new WaitForSeconds(.25f);
+        GameController.instance.StartEnemiesTurn();
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = new Color32(255, 120, 20, 255);
+        Gizmos.DrawWireSphere(transform.position + Vector3.left * 3f, 1f);
+        Gizmos.DrawWireSphere(transform.position + Vector3.forward * 3f, 1f);
+        Gizmos.DrawWireSphere(transform.position + Vector3.back * 3f, 1f);
+        Gizmos.DrawWireSphere(transform.position + Vector3.right * 3f, 1f);
     }
 }
