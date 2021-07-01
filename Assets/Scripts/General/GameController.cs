@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public float gameSpeed = 12;
     public float gridSize = 3;
     public float movementTimeout;
+    public bool gamePaused;
 
     private string enemyColorScript;
     
@@ -77,11 +78,18 @@ public class GameController : MonoBehaviour
 
     public void GameOver()
     {
+        gamePaused = true;
         _menuController.ShowGameOverMenu();
     }
 
     public void FinishLevel()
     {
-        Debug.Log("congratulations!");
+        gamePaused = true;
+        _menuController.ShowWinMenu();
+    }
+
+    public void StartLevel()
+    {
+        gamePaused = false;
     }
 }

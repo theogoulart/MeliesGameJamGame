@@ -24,6 +24,10 @@ public class EnemyMovement : MonoBehaviour
     }
 
     void Update() {
+        if (GameController.instance.gamePaused) {
+            return;
+        }
+
         Turn();
     }
 

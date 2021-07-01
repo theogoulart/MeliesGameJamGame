@@ -34,6 +34,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameController.instance.gamePaused) {
+            return;
+        }
+
         OnInput();
     }
 
@@ -95,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
             if (hit.collider != null) {
                 _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
                 StartCoroutine(Move());
-                GameController.instance.FinishLevel();
+                StartCoroutine(CallLevelFinished());
                 return true;
             }
 
@@ -165,6 +169,12 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(.25f);
         GameController.instance.StartEnemiesTurn();
+    }
+
+    IEnumerator CallLevelFinished()
+    {
+        yield return new WaitForSeconds(GameController.instance.movementTimeout);
+        GameController.instance.FinishLevel();
     }
 
     private void OnDrawGizmos() {
