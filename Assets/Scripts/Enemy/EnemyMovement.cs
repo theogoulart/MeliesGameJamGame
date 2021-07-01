@@ -10,6 +10,7 @@ public class EnemyMovement : MonoBehaviour
     private Vector3 _nextStep;
     private Vector3 _direction;
     public LayerMask stepOnLayer;
+    public LayerMask enemyLayer;
 
     [SerializeField] private Transform player;
     private PlayerMovement _playerMov;
@@ -62,6 +63,11 @@ public class EnemyMovement : MonoBehaviour
     bool ValidateAndMove()
     {
             RaycastHit hit;
+            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, enemyLayer);
+            if (hit.collider != null) {
+                return false;
+            }
+
             Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, stepOnLayer);
 
             if (hit.collider != null) {

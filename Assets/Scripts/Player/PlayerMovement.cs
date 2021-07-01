@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _nextStep;
     private Vector3 _currentPosition;
     private bool isMovementLocked;
+    public LayerMask enemyLayer;
     public LayerMask stepOnLayer;
     public LayerMask finishLayer;
 
@@ -69,14 +70,25 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (hasMovementKeyBeenPressed) {
+            ValidateAndMove();
+        }
+    }
+
+    bool ValidateAndMove()
+    {
             RaycastHit hit;
+            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, enemyLayer);
+            if (hit.collider != null) {
+                return false;
+            }
+
             Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, stepOnLayer);
 
             if (hit.collider != null) {
                 _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
                 StartCoroutine(CallEnemiesTurn());
                 StartCoroutine(Move());
-                return;
+                return true;
             }
 
             Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, finishLayer);
@@ -84,8 +96,16 @@ public class PlayerMovement : MonoBehaviour
                 _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
                 StartCoroutine(Move());
                 GameController.instance.FinishLevel();
+                return true;
             }
-        }
+
+            return false;
+    }
+
+    bool NoMovementsAvailable()
+    {
+        
+        return false;
     }
 
     IEnumerator Move()

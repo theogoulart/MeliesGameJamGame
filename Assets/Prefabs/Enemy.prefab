@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3424559304407522838}
   - component: {fileID: 3424559304407522833}
   - component: {fileID: 3424559304407522832}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -127,4 +127,7 @@ MonoBehaviour:
   stepOnLayer:
     serializedVersion: 2
     m_Bits: 256
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   player: {fileID: 0}
