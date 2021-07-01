@@ -8,19 +8,35 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Press 'return' to start the game");
+        // Debug.Log("Press 'return' to start the game");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            LoadGameScene();
-        }
+        // if (Input.GetKeyDown(KeyCode.Return)) {
+        //     LoadNewGame();
+        // }
     }
 
-    public void LoadGameScene()
+    public void LoadNewGame()
     {
-        SceneManager.LoadScene("MVPTheoV2");
+        SceneManager.LoadScene("Level 1");
+    }
+
+    public void LoadContinue()
+    {
+        var level = PlayerPrefs.GetString("current_level", "Level 2");
+        SceneManager.LoadScene(level);
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void LoadCredits()
+    {
+        SceneManager.LoadScene("Credits");
     }
 }

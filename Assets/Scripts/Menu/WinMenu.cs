@@ -18,4 +18,9 @@ public class WinMenu : MonoBehaviour
             Debug.Log("Next level");
         }
     }
+
+    void GoToNextLevel()
+    {
+        GameController.instance.NextLevel();
+    }
 }

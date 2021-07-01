@@ -92,4 +92,11 @@ public class GameController : MonoBehaviour
     {
         gamePaused = false;
     }
+
+    public void NextLevel()
+    {
+        var level = PlayerPrefs.GetString("current_level", "Level 1");
+
+        Debug.Log(level);
+    }
 }
