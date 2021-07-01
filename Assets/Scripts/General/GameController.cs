@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     public GameObject[] enemy;
     private GameObject _menu;
+    private MenuController _menuController;
     private GameObject _player;
     private PlayerMovement _playerMov;
     public string lightColor;
@@ -24,6 +25,9 @@ public class GameController : MonoBehaviour
         movementTimeout = gridSize / gameSpeed;
         _player = GameObject.FindWithTag("Player");
         _playerMov = _player.GetComponent<PlayerMovement>();
+
+        _menu = GameObject.FindWithTag("Menu");
+        _menuController = _menu.GetComponent<MenuController>();
     }
 
     // Update is called once per frame
@@ -73,8 +77,7 @@ public class GameController : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("game over");
-        Time.timeScale = 0;
+        _menuController.ShowGameOverMenu();
     }
 
     public void FinishLevel()
