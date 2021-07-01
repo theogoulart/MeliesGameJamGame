@@ -19,7 +19,7 @@ public class WinMenu : MonoBehaviour
         }
     }
 
-    void GoToNextLevel()
+    public void GoToNextLevel()
     {
         GameController.instance.NextLevel();
     }

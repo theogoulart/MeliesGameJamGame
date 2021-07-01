@@ -21,13 +21,14 @@ public class MainMenu : MonoBehaviour
 
     public void LoadNewGame()
     {
+        PlayerPrefs.SetString("current_level", "1");
         SceneManager.LoadScene("Level 1");
     }
 
     public void LoadContinue()
     {
-        var level = PlayerPrefs.GetString("current_level", "Level 2");
-        SceneManager.LoadScene(level);
+        var level = PlayerPrefs.GetString("current_level", "1");
+        SceneManager.LoadScene("Level " + level);
     }
 
     public void LoadMainMenu()

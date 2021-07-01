@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -95,8 +97,15 @@ public class GameController : MonoBehaviour
 
     public void NextLevel()
     {
-        var level = PlayerPrefs.GetString("current_level", "Level 1");
+        var level = PlayerPrefs.GetString("current_level", "1");
+        var nextLevel = Convert.ToString(int.Parse(level) + 1);
 
-        Debug.Log(level);
+        if (nextLevel == "4") {
+            SceneManager.LoadScene("Credits");
+            return;
+        }
+
+        PlayerPrefs.SetString("current_level", nextLevel);
+        SceneManager.LoadScene("Level " + nextLevel);
     }
 }
