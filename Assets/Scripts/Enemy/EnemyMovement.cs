@@ -12,14 +12,15 @@ public class EnemyMovement : MonoBehaviour
     public LayerMask stepOnLayer;
     public LayerMask enemyLayer;
 
-    [SerializeField] private Transform player;
+    private GameObject _player;
     private PlayerMovement _playerMov;
 
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody>();
-        _playerMov = player.GetComponent<PlayerMovement>();
+        _player = GameObject.FindWithTag("Player");
+        _playerMov = _player.GetComponent<PlayerMovement>();
     }
 
     void Update() {
@@ -62,21 +63,21 @@ public class EnemyMovement : MonoBehaviour
 
     bool ValidateAndMove()
     {
-            RaycastHit hit;
-            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, enemyLayer);
-            if (hit.collider != null) {
-                return false;
-            }
-
-            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, stepOnLayer);
-
-            if (hit.collider != null) {
-                _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
-                StartCoroutine(Move());
-                return true;
-            }
-
+        RaycastHit hit;
+        Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, enemyLayer);
+        if (hit.collider != null) {
             return false;
+        }
+
+        Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, stepOnLayer);
+
+        if (hit.collider != null) {
+            _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
+            StartCoroutine(Move());
+            return true;
+        }
+
+        return false;
     }
 
     IEnumerator Move()
@@ -108,8 +109,8 @@ public class EnemyMovement : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other) {
-        if (other.collider.CompareTag("Enemy")) {
-            Debug.Log(other);
+        if (other.collider.CompareTag("Player")) {
+            GameController.instance.GameOver();
         }
     }
 }

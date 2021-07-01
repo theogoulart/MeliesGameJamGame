@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public GameObject[] enemy;
-    public GameObject player;
+    private GameObject _menu;
+    private GameObject _player;
+    private PlayerMovement _playerMov;
     public string lightColor;
     public bool enemiesTurn;
     public static GameController instance;
@@ -20,7 +22,8 @@ public class GameController : MonoBehaviour
     {
         instance = this;
         movementTimeout = gridSize / gameSpeed;
-        //enemy = GameObject.FindGameObjectsWithTag("Enemy");
+        _player = GameObject.FindWithTag("Player");
+        _playerMov = _player.GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -60,7 +63,18 @@ public class GameController : MonoBehaviour
     IEnumerator FinishEnemiesTurn()
     {
         yield return new WaitForSeconds(movementTimeout);
+
+        if (_playerMov.NoMovementsAvailable()) {
+            GameOver();
+        }
+
         enemiesTurn = false;
+    }
+
+    public void GameOver()
+    {
+        Debug.Log("game over");
+        Time.timeScale = 0;
     }
 
     public void FinishLevel()

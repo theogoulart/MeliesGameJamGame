@@ -102,10 +102,43 @@ public class PlayerMovement : MonoBehaviour
             return false;
     }
 
-    bool NoMovementsAvailable()
+    public bool NoMovementsAvailable()
     {
-        
-        return false;
+        RaycastHit hit;
+
+        Physics.SphereCast(transform.position, 1f, Vector3.right, out hit, 3f, stepOnLayer);
+        if (hit.collider != null) {
+            Physics.SphereCast(transform.position, 1f, Vector3.right, out hit, 3f, enemyLayer);
+            if (hit.collider == null) {
+                return false;
+            }
+        }
+
+        Physics.SphereCast(transform.position, 1f, Vector3.back, out hit, 3f, stepOnLayer);
+        if (hit.collider != null) {
+            Physics.SphereCast(transform.position, 1f, Vector3.back, out hit, 3f, enemyLayer);
+            if (hit.collider == null) {
+                return false;
+            }
+        }
+
+        Physics.SphereCast(transform.position, 1f, Vector3.left, out hit, 3f, stepOnLayer);
+        if (hit.collider != null) {
+            Physics.SphereCast(transform.position, 1f, Vector3.left, out hit, 3f, enemyLayer);
+            if (hit.collider == null) {
+                return false;
+            }
+        }
+
+        Physics.SphereCast(transform.position, 1f, Vector3.forward, out hit, 3f, stepOnLayer);
+        if (hit.collider != null) {
+            Physics.SphereCast(transform.position, 1f, Vector3.forward, out hit, 3f, enemyLayer);
+            if (hit.collider == null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     IEnumerator Move()
