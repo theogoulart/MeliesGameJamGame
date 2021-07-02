@@ -66,6 +66,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        if (ChangeColor()) {
+            return;
+        }
+
         bool hasMovementKeyBeenPressed = false;
 
         if (Input.GetKeyDown(KeyCode.W)) {
@@ -73,18 +77,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.S)) {
-            Debug.Log(_direction);
-            // _direction = Vector3.back;
+            _direction = Vector3.back;
             if (_direction == Vector3.forward) {
+                Debug.Log("forward");
                 _direction = Vector3.back;
-            }
-            if (_direction == Vector3.right) {
+            } else if (_direction == Vector3.right) {
+                Debug.Log("right");
                 _direction = Vector3.left;
-            }
-            if (_direction == Vector3.left) {
+            } else if (_direction == Vector3.left) {
+                Debug.Log("left");
                 _direction = Vector3.right;
-            }
-            if (_direction == Vector3.back) {
+            } else if (_direction == Vector3.back) {
+                Debug.Log("back");
                 _direction = Vector3.forward;
             }
             hasMovementKeyBeenPressed = true;
@@ -100,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
             hasMovementKeyBeenPressed = true;
         }
 
+        Debug.Log(_direction);
         if (hasMovementKeyBeenPressed) {
             Debug.Log("press");
             ValidateAndMove();
@@ -108,30 +113,53 @@ public class PlayerMovement : MonoBehaviour
 
     bool ValidateAndMove()
     {
-            RaycastHit hit;
-            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, enemyLayer);
-            if (hit.collider != null) {
-                return false;
-            }
-
-            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, stepOnLayer);
-
-            if (hit.collider != null) {
-                _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
-                StartCoroutine(CallEnemiesTurn());
-                StartCoroutine(Move());
-                return true;
-            }
-
-            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, finishLayer);
-            if (hit.collider != null) {
-                _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
-                StartCoroutine(Move());
-                StartCoroutine(CallLevelFinished());
-                return true;
-            }
-
+        RaycastHit hit;
+        Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, enemyLayer);
+        if (hit.collider != null) {
             return false;
+        }
+
+        Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, stepOnLayer);
+
+        if (hit.collider != null) {
+            _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
+            StartCoroutine(CallEnemiesTurn());
+            StartCoroutine(Move());
+            return true;
+        }
+
+        Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, finishLayer);
+        if (hit.collider != null) {
+            _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
+            StartCoroutine(Move());
+            StartCoroutine(CallLevelFinished());
+            return true;
+        }
+
+        return false;
+    }
+
+    bool ChangeColor()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3)) {
+            if (Input.GetKeyDown(KeyCode.Alpha1)) {
+                // Debug.Log("change color 0");
+                GameController.instance.lightColorFunction("red");
+            } else if(Input.GetKeyDown(KeyCode.Alpha2)){
+                // Debug.Log("change color 1");
+                GameController.instance.lightColorFunction("green");
+            }else if(Input.GetKeyDown(KeyCode.Alpha3)){
+                // Debug.Log("change color 1");
+                GameController.instance.lightColorFunction("natual");
+            }else{
+                Debug.Log("no light");
+            }
+
+            StartCoroutine(CallEnemiesTurn());
+            return true;
+        }
+
+        return false;
     }
 
     public bool NoMovementsAvailable()

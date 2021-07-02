@@ -129,6 +129,7 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        timerText.text = " "+(int)timeRemaining;
+        timeRemaining += Time.deltaTime;
+        timerText.text = ""+(int)timeRemaining;
      }
 }
