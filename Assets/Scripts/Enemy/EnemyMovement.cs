@@ -91,12 +91,29 @@ public class EnemyMovement : MonoBehaviour
         }
         isMovementLocked = true;
 
+        RotateBody();
         while (MoveToNextNode(_nextStep)) {
             yield return null;
         }
 
         yield return new WaitForSeconds(GameController.instance.movementTimeout);
         isMovementLocked = false;
+    }
+
+    void RotateBody()
+    {
+        if (_direction == Vector3.forward) {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        if (_direction == Vector3.right) {
+            transform.eulerAngles = new Vector3(0, 90, 0);
+        }
+        if (_direction == Vector3.left) {
+            transform.eulerAngles = new Vector3(0, 270, 0);
+        }
+        if (_direction == Vector3.back) {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
     }
 
     bool MoveToNextNode(Vector3 goal)

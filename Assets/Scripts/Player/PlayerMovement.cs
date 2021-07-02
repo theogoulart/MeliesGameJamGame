@@ -29,6 +29,21 @@ public class PlayerMovement : MonoBehaviour
     {
         rig = GetComponent<Rigidbody>();
         _currentPosition = transform.position;
+
+        switch (transform.rotation.y) {
+            case 0:
+                _direction = Vector3.forward;
+                break;
+            case 90:
+                _direction = Vector3.right;
+                break;
+            case 180:
+                _direction = Vector3.back;
+                break;
+            case 270:
+                _direction = Vector3.left;
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -153,6 +168,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         isMovementLocked = true;
+        RotateBody();
         while (MoveToNextNode(_nextStep)) {
             yield return null;
         }
@@ -164,6 +180,22 @@ public class PlayerMovement : MonoBehaviour
     bool MoveToNextNode(Vector3 goal)
     {
         return goal != (rig.position = Vector3.MoveTowards(rig.position, goal, GameController.instance.gameSpeed * Time.deltaTime));
+    }
+
+    void RotateBody()
+    {
+        if (_direction == Vector3.forward) {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        if (_direction == Vector3.right) {
+            transform.eulerAngles = new Vector3(0, 90, 0);
+        }
+        if (_direction == Vector3.left) {
+            transform.eulerAngles = new Vector3(0, 270, 0);
+        }
+        if (_direction == Vector3.back) {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
     }
 
     IEnumerator CallEnemiesTurn()
