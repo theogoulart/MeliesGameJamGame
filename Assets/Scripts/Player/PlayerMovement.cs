@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody rig;
     private Vector3 _direction;
+    private Vector3 _nextDirection;
     private Vector3 _nextStep;
     private Vector3 _currentPosition;
     private bool isMovementLocked;
@@ -66,6 +67,11 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        if (ChangeColor()) {
+            Debug.Log("oi");
+            return;
+        }
+
         bool hasMovementKeyBeenPressed = false;
 
         if (Input.GetKeyDown(KeyCode.W)) {
@@ -73,30 +79,45 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.S)) {
-            Debug.Log(_direction);
-            // _direction = Vector3.back;
             if (_direction == Vector3.forward) {
-                _direction = Vector3.back;
-            }
-            if (_direction == Vector3.right) {
-                _direction = Vector3.left;
-            }
-            if (_direction == Vector3.left) {
-                _direction = Vector3.right;
-            }
-            if (_direction == Vector3.back) {
-                _direction = Vector3.forward;
+                _nextDirection = Vector3.back;
+            } else if (_direction == Vector3.right) {
+                _nextDirection = Vector3.left;
+            } else if (_direction == Vector3.left) {
+                _nextDirection = Vector3.right;
+            } else if (_direction == Vector3.back) {
+                _nextDirection = Vector3.forward;
             }
             hasMovementKeyBeenPressed = true;
         }
 
         if (Input.GetKeyDown(KeyCode.A)) {
-            _direction = Vector3.left;
+            if (_direction == Vector3.forward) {
+                Debug.Log("forward");
+                _nextDirection = Vector3.left;
+            } else if (_direction == Vector3.right) {
+                Debug.Log("right");
+                _nextDirection = Vector3.forward;
+            } else if (_direction == Vector3.left) {
+                Debug.Log("left");
+                _nextDirection = Vector3.back;
+            } else if (_direction == Vector3.back) {
+                Debug.Log("back");
+                _nextDirection = Vector3.right;
+            }
             hasMovementKeyBeenPressed = true;
         }
 
         if (Input.GetKeyDown(KeyCode.D)) {
-            _direction = Vector3.right;
+            if (_direction == Vector3.forward) {
+                _nextDirection = Vector3.right;
+            } else if (_direction == Vector3.right) {
+                _nextDirection = Vector3.back;
+            } else if (_direction == Vector3.left) {
+                _nextDirection = Vector3.forward;
+            } else if (_direction == Vector3.back) {
+                _nextDirection = Vector3.left;
+            }
             hasMovementKeyBeenPressed = true;
         }
 
@@ -108,30 +129,53 @@ public class PlayerMovement : MonoBehaviour
 
     bool ValidateAndMove()
     {
-            RaycastHit hit;
-            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, enemyLayer);
-            if (hit.collider != null) {
-                return false;
-            }
-
-            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, stepOnLayer);
-
-            if (hit.collider != null) {
-                _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
-                StartCoroutine(CallEnemiesTurn());
-                StartCoroutine(Move());
-                return true;
-            }
-
-            Physics.SphereCast(transform.position, 1f, _direction, out hit, 3f, finishLayer);
-            if (hit.collider != null) {
-                _nextStep = (_direction * GameController.instance.gridSize) + rig.position;
-                StartCoroutine(Move());
-                StartCoroutine(CallLevelFinished());
-                return true;
-            }
-
+        RaycastHit hit;
+        Physics.SphereCast(transform.position, 1f, _nextDirection, out hit, 3f, enemyLayer);
+        if (hit.collider != null) {
             return false;
+        }
+
+        Physics.SphereCast(transform.position, 1f, _nextDirection, out hit, 3f, stepOnLayer);
+
+        if (hit.collider != null) {
+            _nextStep = (_nextDirection * GameController.instance.gridSize) + rig.position;
+            StartCoroutine(CallEnemiesTurn());
+            StartCoroutine(Move());
+            return true;
+        }
+
+        Physics.SphereCast(transform.position, 1f, _nextDirection, out hit, 3f, finishLayer);
+        if (hit.collider != null) {
+            _nextStep = (_nextDirection * GameController.instance.gridSize) + rig.position;
+            StartCoroutine(Move());
+            StartCoroutine(CallLevelFinished());
+            return true;
+        }
+
+        return false;
+    }
+
+    bool ChangeColor()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3)) {
+            if (Input.GetKeyDown(KeyCode.Alpha1)) {
+                // Debug.Log("change color 0");
+                GameController.instance.lightColorFunction("red");
+            } else if(Input.GetKeyDown(KeyCode.Alpha2)){
+                // Debug.Log("change color 1");
+                GameController.instance.lightColorFunction("green");
+            }else if(Input.GetKeyDown(KeyCode.Alpha3)){
+                // Debug.Log("change color 1");
+                GameController.instance.lightColorFunction("blue");
+            }else{
+                Debug.Log("no light");
+            }
+
+            StartCoroutine(CallEnemiesTurn());
+            return true;
+        }
+
+        return false;
     }
 
     public bool NoMovementsAvailable()
@@ -180,6 +224,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         isMovementLocked = true;
+        _direction = _nextDirection;
         RotateBody();
         while (MoveToNextNode(_nextStep)) {
             yield return null;
@@ -196,16 +241,16 @@ public class PlayerMovement : MonoBehaviour
 
     void RotateBody()
     {
-        if (_direction == Vector3.forward) {
+        if (_nextDirection == Vector3.forward) {
             transform.eulerAngles = new Vector3(0, 0, 0);
         }
-        if (_direction == Vector3.right) {
+        if (_nextDirection == Vector3.right) {
             transform.eulerAngles = new Vector3(0, 90, 0);
         }
-        if (_direction == Vector3.left) {
+        if (_nextDirection == Vector3.left) {
             transform.eulerAngles = new Vector3(0, 270, 0);
         }
-        if (_direction == Vector3.back) {
+        if (_nextDirection == Vector3.back) {
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
     }

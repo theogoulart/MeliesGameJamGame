@@ -9,7 +9,9 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject[] enemy;
+    private GameObject redEnemy;
+    private GameObject blueEnemy;
+    private GameObject greenEnemy;
     private GameObject _menu;
     private MenuController _menuController;
     private GameObject _player;
@@ -41,6 +43,10 @@ public class GameController : MonoBehaviour
         _menu = GameObject.FindWithTag("Menu");
         _menuController = _menu.GetComponent<MenuController>();
 
+        redEnemy = GameObject.FindWithTag("RedEnemies");
+        greenEnemy = GameObject.FindWithTag("GreenEnemies");
+        blueEnemy = GameObject.FindWithTag("BlueEnemies");
+
        timerText.text = timeRemaining.ToString();
     }
 
@@ -62,23 +68,24 @@ public class GameController : MonoBehaviour
 
     public void lightColorFunction(string color){
         lightColor = color;
-        // Debug.Log(color);
-        var i = -1;
-        foreach (GameObject obj in enemy)
-        {
-            i++;
-            enemyColorScript = enemy[i].GetComponent<EnemyMovement>().enemyColor;
 
-            if(enemyColorScript == color){
-                ShowOrhideEnemy(false, i);
-            }else{
-                ShowOrhideEnemy(true, i);
-            }
+        switch (lightColor) {
+            case "red":
+                redEnemy.SetActive(false);
+                greenEnemy.SetActive(true);
+                blueEnemy.SetActive(true);
+                break;
+            case "green":
+                redEnemy.SetActive(true);
+                greenEnemy.SetActive(false);
+                blueEnemy.SetActive(true);
+                break;
+            case "blue":
+                redEnemy.SetActive(true);
+                greenEnemy.SetActive(true);
+                blueEnemy.SetActive(false);
+                break;
         }
-    }
-
-    public void ShowOrhideEnemy(bool status, int id){
-        enemy[id].SetActive(status);
     }
 
     IEnumerator FinishEnemiesTurn()
@@ -129,6 +136,7 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        timerText.text = " "+(int)timeRemaining;
+        timeRemaining += Time.deltaTime;
+        timerText.text = ""+(int)timeRemaining;
      }
 }
