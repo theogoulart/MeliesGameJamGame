@@ -1334,8 +1334,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1022973709}
-  m_LocalRotation: {x: 0.56062883, y: 0.000000014248048, z: -0.000000009646399, w: 0.82806724}
-  m_LocalPosition: {x: 4.5, y: 10.5, z: -8.5}
+  m_LocalRotation: {x: 0.52573115, y: 0.000000017142302, z: -0.000000010594524, w: 0.85065085}
+  m_LocalPosition: {x: 4.5, y: 6.5, z: -7.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1454,7 +1454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 10, z: -4}
+  m_FollowOffset: {x: 0, y: 6, z: -3}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -1759,6 +1759,18 @@ Transform:
   m_Father: {fileID: 1193280191}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1452162877 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1382761624783662383, guid: c4f1ed193a345db45836e2ee038efc78,
+    type: 3}
+  m_PrefabInstance: {fileID: 1463013563}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1463013563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1766,6 +1778,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1382761625462342792, guid: c4f1ed193a345db45836e2ee038efc78,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1022973711}
     - target: {fileID: 1382761625462342795, guid: c4f1ed193a345db45836e2ee038efc78,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1875,6 +1892,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UIGamePlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382761625462342799, guid: c4f1ed193a345db45836e2ee038efc78,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4f1ed193a345db45836e2ee038efc78, type: 3}
@@ -2424,8 +2446,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138277177}
-  m_LocalRotation: {x: 0.56062883, y: 0.000000014248048, z: -0.000000009646399, w: 0.82806724}
-  m_LocalPosition: {x: 4.5, y: 10.5, z: -8.5}
+  m_LocalRotation: {x: 0.52573115, y: 0.000000017142302, z: -0.000000010594524, w: 0.85065085}
+  m_LocalPosition: {x: 4.5, y: 6.5, z: -7.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1249800044}
@@ -2637,7 +2659,7 @@ PrefabInstance:
         type: 3}
       propertyPath: timerText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1452162877}
     - target: {fileID: 5245296688503625643, guid: 3da271272675856428734eca2661e2c5,
         type: 3}
       propertyPath: timeAnimator

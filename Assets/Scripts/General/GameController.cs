@@ -25,8 +25,6 @@ public class GameController : MonoBehaviour
     public bool timerIsRunning = false;
 
     public TextMeshProUGUI timerText;
-    public int timeToTimeEnd;
-    public Animator timeAnimator;
     public bool isGameOver = false;
     private string enemyColorScript;
     
