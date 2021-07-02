@@ -158,10 +158,10 @@ public class PlayerMovement : MonoBehaviour
     bool ChangeColor()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3)) {
-            if (Input.GetKeyDown(KeyCode.Alpha1)) {
+            if (Input.GetKeyDown(KeyCode.Alpha2)) {
                 // Debug.Log("change color 0");
                 GameController.instance.lightColorFunction("red");
-            } else if(Input.GetKeyDown(KeyCode.Alpha2)){
+            } else if(Input.GetKeyDown(KeyCode.Alpha1)){
                 // Debug.Log("change color 1");
                 GameController.instance.lightColorFunction("green");
             }else if(Input.GetKeyDown(KeyCode.Alpha3)){
