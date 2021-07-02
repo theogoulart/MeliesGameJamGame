@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour
     {
         instance = this;
         movementTimeout = gridSize / gameSpeed;
+
         _player = GameObject.FindWithTag("Player");
         _playerMov = _player.GetComponent<PlayerMovement>();
 
@@ -106,6 +107,7 @@ public class GameController : MonoBehaviour
         }
 
         PlayerPrefs.SetString("current_level", nextLevel);
+        gamePaused = false;
         SceneManager.LoadScene("Level " + nextLevel);
     }
 }

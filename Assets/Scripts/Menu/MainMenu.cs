@@ -33,6 +33,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        Debug.Log("main");
         SceneManager.LoadScene("MainMenu");
     }
 

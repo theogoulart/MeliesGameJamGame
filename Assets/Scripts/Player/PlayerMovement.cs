@@ -74,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (hasMovementKeyBeenPressed) {
+            Debug.Log("press");
             ValidateAndMove();
         }
     }

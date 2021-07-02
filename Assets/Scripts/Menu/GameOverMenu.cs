@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameOverMenu : MonoBehaviour
 {
@@ -21,5 +22,17 @@ public class GameOverMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return)) {
             Debug.Log("Game paused");
         }
+    }
+
+    public void RestartLevel()
+    {
+        var level = PlayerPrefs.GetString("current_level", "1");
+        SceneManager.LoadScene("Level " + level);
+    }
+
+    public void LoadMainMenu()
+    {
+        Debug.Log("main");
+        SceneManager.LoadScene("MainMenu");
     }
 }
