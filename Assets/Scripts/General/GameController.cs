@@ -127,36 +127,10 @@ public class GameController : MonoBehaviour
     }
 
     public void UpdateTimerUI(){
-         if (timerIsRunning)
-        {   
-            if ((int)timeRemaining >= 0)
-            {   
-                timeRemaining += Time.deltaTime;
-
-                if((int)timeRemaining > (timeToTimeEnd * 0.7)){
-                    timeAnimator.SetBool("finishing", true);
-                }else{
-                    timeAnimator.SetBool("finishing", false);
-                }
-            }
-            else
-            {
-                    isGameOver = true;
-                    //travar movimento do player
-
-                    timeAnimator.SetBool("finishing", false);
-                    
-                    //chamar GAME OVER no gamecontroller
-                    // StartCoroutine(GameController.instance.callGameOver());
-
-            }
-
-            if(timeRemaining >= 10){
-                timerText.text = " "+(int)timeRemaining;
-            }else{
-                timerText.text = " "+(int)timeRemaining;
-            }
-            
+        if (GameController.instance.gamePaused) {
+            return;
         }
+
+        timerText.text = " "+(int)timeRemaining;
      }
 }
