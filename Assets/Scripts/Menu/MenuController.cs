@@ -25,25 +25,21 @@ public class MenuController : MonoBehaviour
 
     public void ShowGameOverMenu()
     {
-        Time.timeScale = 0;
         gameOverMenu.SetActive(true);
     }
 
     public void ShowPauseMenu()
     {
-        Time.timeScale = 0;
         pauseMenu.SetActive(true);
     }
 
     public void ShowWinMenu()
     {
-        Time.timeScale = 0;
         winMenu.SetActive(true);
     }
 
     public void LoadMainMenu()
     {
-        Time.timeScale = 0;
         gameOverMenu.SetActive(true);
     }
 }

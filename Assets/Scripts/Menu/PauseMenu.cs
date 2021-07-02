@@ -21,7 +21,6 @@ public class PauseMenu : MonoBehaviour
 
     public void ContinueGameplay()
     {
-        Time.timeScale = 1;
         gameObject.SetActive(false);
     }
 
