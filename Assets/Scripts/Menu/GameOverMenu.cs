@@ -9,7 +9,6 @@ public class GameOverMenu : MonoBehaviour
     void Start()
     {
         Debug.Log("Game Over! Press 'return' to reload level");
-        Time.timeScale = 0;
     }
 
     // Update is called once per frame

@@ -8,7 +8,6 @@ public class WinMenu : MonoBehaviour
     void Start()
     {
         Debug.Log("You win! Press 'Enter' to go to the next level!");
-        Time.timeScale = 0;
     }
 
     // Update is called once per frame
