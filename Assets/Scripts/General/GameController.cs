@@ -29,6 +29,10 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI timerText;
     public bool isGameOver = false;
     private string enemyColorScript;
+
+    public SpriteRenderer redbun;
+    public SpriteRenderer bluebun;
+    public SpriteRenderer greenbun;
     
     private bool gameIsRunning = true;
     // Start is called before the first frame update
@@ -74,16 +78,25 @@ public class GameController : MonoBehaviour
                 redEnemy.SetActive(false);
                 greenEnemy.SetActive(true);
                 blueEnemy.SetActive(true);
+                greenbun.color = new Color(255,255,255,0.5f);
+                bluebun.color = new Color(255,255,255,0.5f);
+                redbun.color = new Color(255,255,255,1);
                 break;
             case "green":
                 redEnemy.SetActive(true);
                 greenEnemy.SetActive(false);
                 blueEnemy.SetActive(true);
+                greenbun.color = new Color(255,255,255,1);
+                bluebun.color = new Color(255,255,255,.5f);
+                redbun.color = new Color(255,255,255,.5f);
                 break;
             case "blue":
                 redEnemy.SetActive(true);
                 greenEnemy.SetActive(true);
                 blueEnemy.SetActive(false);
+                greenbun.color = new Color(255,255,255,.5f);
+                bluebun.color = new Color(255,255,255,1);
+                redbun.color = new Color(255,255,255,.5f);
                 break;
         }
     }
