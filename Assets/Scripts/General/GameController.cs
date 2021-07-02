@@ -9,7 +9,9 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject[] enemy;
+    private GameObject redEnemy;
+    private GameObject blueEnemy;
+    private GameObject greenEnemy;
     private GameObject _menu;
     private MenuController _menuController;
     private GameObject _player;
@@ -27,6 +29,10 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI timerText;
     public bool isGameOver = false;
     private string enemyColorScript;
+
+    public SpriteRenderer redbun;
+    public SpriteRenderer bluebun;
+    public SpriteRenderer greenbun;
     
     private bool gameIsRunning = true;
     // Start is called before the first frame update
@@ -40,6 +46,10 @@ public class GameController : MonoBehaviour
 
         _menu = GameObject.FindWithTag("Menu");
         _menuController = _menu.GetComponent<MenuController>();
+
+        redEnemy = GameObject.FindWithTag("RedEnemies");
+        greenEnemy = GameObject.FindWithTag("GreenEnemies");
+        blueEnemy = GameObject.FindWithTag("BlueEnemies");
 
        timerText.text = timeRemaining.ToString();
     }
@@ -62,23 +72,33 @@ public class GameController : MonoBehaviour
 
     public void lightColorFunction(string color){
         lightColor = color;
-        // Debug.Log(color);
-        var i = -1;
-        foreach (GameObject obj in enemy)
-        {
-            i++;
-            enemyColorScript = enemy[i].GetComponent<EnemyMovement>().enemyColor;
 
-            if(enemyColorScript == color){
-                ShowOrhideEnemy(false, i);
-            }else{
-                ShowOrhideEnemy(true, i);
-            }
+        switch (lightColor) {
+            case "red":
+                redEnemy.SetActive(false);
+                greenEnemy.SetActive(true);
+                blueEnemy.SetActive(true);
+                greenbun.color = new Color(255,255,255,0.5f);
+                bluebun.color = new Color(255,255,255,0.5f);
+                redbun.color = new Color(255,255,255,1);
+                break;
+            case "green":
+                redEnemy.SetActive(true);
+                greenEnemy.SetActive(false);
+                blueEnemy.SetActive(true);
+                greenbun.color = new Color(255,255,255,1);
+                bluebun.color = new Color(255,255,255,.5f);
+                redbun.color = new Color(255,255,255,.5f);
+                break;
+            case "blue":
+                redEnemy.SetActive(true);
+                greenEnemy.SetActive(true);
+                blueEnemy.SetActive(false);
+                greenbun.color = new Color(255,255,255,.5f);
+                bluebun.color = new Color(255,255,255,1);
+                redbun.color = new Color(255,255,255,.5f);
+                break;
         }
-    }
-
-    public void ShowOrhideEnemy(bool status, int id){
-        enemy[id].SetActive(status);
     }
 
     IEnumerator FinishEnemiesTurn()
@@ -129,6 +149,7 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        timerText.text = " "+(int)timeRemaining;
+        timeRemaining += Time.deltaTime;
+        timerText.text = ""+(int)timeRemaining;
      }
 }
