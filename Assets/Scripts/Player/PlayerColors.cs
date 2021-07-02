@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerColors : MonoBehaviour
 {
-    private SpriteRenderer sprite;
     private bool isCooldownActive;
 
     enum State {
@@ -15,7 +14,6 @@ public class PlayerColors : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sprite = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -33,7 +31,7 @@ public class PlayerColors : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3)) {
             if (Input.GetKeyDown(KeyCode.Alpha1)) {
                 // Debug.Log("change color 0");
-                GameController.instance.lightColorFunction("blue");
+                GameController.instance.lightColorFunction("red");
             } else if(Input.GetKeyDown(KeyCode.Alpha2)){
                 // Debug.Log("change color 1");
                 GameController.instance.lightColorFunction("green");
@@ -44,7 +42,7 @@ public class PlayerColors : MonoBehaviour
                 Debug.Log("no light");
             }
 
-            sprite.color = new Color(1,0,0,1);
+           
             isCooldownActive = true;
             StartCoroutine(Cooldown());
         }

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using UnityEngine.UI;
+using TMPro;
+
 public class GameController : MonoBehaviour
 {
     public GameObject[] enemy;
@@ -18,9 +21,16 @@ public class GameController : MonoBehaviour
     public float gridSize = 3;
     public float movementTimeout;
     public bool gamePaused;
+    public float timeRemaining = 0;
+    public bool timerIsRunning = false;
 
+    public TextMeshProUGUI timerText;
+    public int timeToTimeEnd;
+    public Animator timeAnimator;
+    public bool isGameOver = false;
     private string enemyColorScript;
     
+    private bool gameIsRunning = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,12 +42,17 @@ public class GameController : MonoBehaviour
 
         _menu = GameObject.FindWithTag("Menu");
         _menuController = _menu.GetComponent<MenuController>();
+
+       timerText.text = timeRemaining.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(gameIsRunning == true && isGameOver == false){
+            timerIsRunning = true;
+        }
+        UpdateTimerUI();
     }
 
     public void StartEnemiesTurn()
@@ -110,4 +125,38 @@ public class GameController : MonoBehaviour
         gamePaused = false;
         SceneManager.LoadScene("Level " + nextLevel);
     }
+
+    public void UpdateTimerUI(){
+         if (timerIsRunning)
+        {   
+            if ((int)timeRemaining >= 0)
+            {   
+                timeRemaining += Time.deltaTime;
+
+                if((int)timeRemaining > (timeToTimeEnd * 0.7)){
+                    timeAnimator.SetBool("finishing", true);
+                }else{
+                    timeAnimator.SetBool("finishing", false);
+                }
+            }
+            else
+            {
+                    isGameOver = true;
+                    //travar movimento do player
+
+                    timeAnimator.SetBool("finishing", false);
+                    
+                    //chamar GAME OVER no gamecontroller
+                    // StartCoroutine(GameController.instance.callGameOver());
+
+            }
+
+            if(timeRemaining >= 10){
+                timerText.text = " "+(int)timeRemaining;
+            }else{
+                timerText.text = " "+(int)timeRemaining;
+            }
+            
+        }
+     }
 }
