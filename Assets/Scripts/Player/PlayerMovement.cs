@@ -86,7 +86,15 @@ public class PlayerMovement : MonoBehaviour
         bool hasMovementKeyBeenPressed = false;
 
         if (Input.GetKeyDown(KeyCode.W)) {
-            _nextDirection = Vector3.forward;
+            if (_direction == Vector3.forward) {
+                _nextDirection = Vector3.forward;
+            } else if (_direction == Vector3.right) {
+                _nextDirection = Vector3.right;
+            } else if (_direction == Vector3.left) {
+                _nextDirection = Vector3.left;
+            } else if (_direction == Vector3.back) {
+                _nextDirection = Vector3.back;
+            }
             hasMovementKeyBeenPressed = true;
         }
 
