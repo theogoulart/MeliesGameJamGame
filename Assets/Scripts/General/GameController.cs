@@ -81,6 +81,7 @@ public class GameController : MonoBehaviour
                 greenbun.color = new Color(255,255,255,0.5f);
                 bluebun.color = new Color(255,255,255,0.5f);
                 redbun.color = new Color(255,255,255,1);
+                _playerMov.ChangeColor(255,78,90);
                 break;
             case "green":
                 redEnemy.SetActive(true);
@@ -89,6 +90,7 @@ public class GameController : MonoBehaviour
                 greenbun.color = new Color(255,255,255,1);
                 bluebun.color = new Color(255,255,255,.5f);
                 redbun.color = new Color(255,255,255,.5f);
+                _playerMov.ChangeColor(86,255,88);
                 break;
             case "blue":
                 redEnemy.SetActive(true);
@@ -97,6 +99,7 @@ public class GameController : MonoBehaviour
                 greenbun.color = new Color(255,255,255,.5f);
                 bluebun.color = new Color(255,255,255,1);
                 redbun.color = new Color(255,255,255,.5f);
+                _playerMov.ChangeColor(91,85,255);
                 break;
         }
     }

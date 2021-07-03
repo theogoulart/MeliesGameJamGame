@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask enemyLayer;
     public LayerMask stepOnLayer;
     public LayerMask finishLayer;
+    public Light pointLight;
 
     public Vector3 direction
     { 
@@ -59,6 +60,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate() {
         // Move();
+    }
+
+    public void ChangeColor(int red, int green, int blue)
+    {
+        pointLight.color = new Color32(System.Convert.ToByte(red),System.Convert.ToByte(green),System.Convert.ToByte(blue), System.Convert.ToByte(1));
     }
 
     void OnInput()
