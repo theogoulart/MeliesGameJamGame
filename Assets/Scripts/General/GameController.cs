@@ -119,6 +119,7 @@ public class GameController : MonoBehaviour
     {
         gamePaused = true;
         _menuController.ShowGameOverMenu();
+        _playerMov.PlayDeathSound();
     }
 
     public void FinishLevel()

@@ -15,6 +15,10 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask finishLayer;
     public Light pointLight;
 
+    public AudioSource dieSfx;
+    public AudioSource winSfx;
+    public AudioSource changeSfx;
+
     public Vector3 direction
     { 
         get { return _direction; }
@@ -64,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ChangeColor(int red, int green, int blue)
     {
+        changeSfx.Play();
         pointLight.color = new Color32(System.Convert.ToByte(red),System.Convert.ToByte(green),System.Convert.ToByte(blue), System.Convert.ToByte(1));
     }
 
@@ -182,6 +187,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void PlayDeathSound()
+    {
+        dieSfx.Play();
     }
 
     public bool NoMovementsAvailable()
