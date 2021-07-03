@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public AudioSource startSfx;
+    public GameObject animation;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,23 +24,31 @@ public class MainMenu : MonoBehaviour
     public void LoadNewGame()
     {
         PlayerPrefs.SetString("current_level", "1");
-        SceneManager.LoadScene("Level 1");
+        StartCoroutine(StartGame("Level 1"));
     }
 
     public void LoadContinue()
     {
         var level = PlayerPrefs.GetString("current_level", "1");
-        SceneManager.LoadScene("Level " + level);
+        StartCoroutine(StartGame("Level " + level));
     }
 
     public void LoadMainMenu()
     {
         Debug.Log("main");
-        SceneManager.LoadScene("MainMenu");
+        StartCoroutine(StartGame("MainMenu"));
     }
 
     public void LoadCredits()
     {
         SceneManager.LoadScene("Credits");
+    }
+
+    IEnumerator StartGame(string level)
+    {
+        startSfx.Play();
+        animation.SetActive(true);
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene(level);
     }
 }
