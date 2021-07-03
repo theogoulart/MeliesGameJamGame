@@ -13,6 +13,11 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask enemyLayer;
     public LayerMask stepOnLayer;
     public LayerMask finishLayer;
+    public Light pointLight;
+
+    public AudioSource dieSfx;
+    public AudioSource winSfx;
+    public AudioSource changeSfx;
 
     public Vector3 direction
     { 
@@ -61,6 +66,12 @@ public class PlayerMovement : MonoBehaviour
         // Move();
     }
 
+    public void ChangeColor(int red, int green, int blue)
+    {
+        changeSfx.Play();
+        pointLight.color = new Color32(System.Convert.ToByte(red),System.Convert.ToByte(green),System.Convert.ToByte(blue), System.Convert.ToByte(1));
+    }
+
     void OnInput()
     {
         if (isMovementLocked) {
@@ -75,6 +86,15 @@ public class PlayerMovement : MonoBehaviour
         bool hasMovementKeyBeenPressed = false;
 
         if (Input.GetKeyDown(KeyCode.W)) {
+            if (_direction == Vector3.forward) {
+                _nextDirection = Vector3.forward;
+            } else if (_direction == Vector3.right) {
+                _nextDirection = Vector3.right;
+            } else if (_direction == Vector3.left) {
+                _nextDirection = Vector3.left;
+            } else if (_direction == Vector3.back) {
+                _nextDirection = Vector3.back;
+            }
             hasMovementKeyBeenPressed = true;
         }
 
@@ -176,6 +196,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void PlayDeathSound()
+    {
+        dieSfx.Play();
     }
 
     public bool NoMovementsAvailable()
